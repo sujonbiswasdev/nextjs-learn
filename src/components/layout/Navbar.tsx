@@ -76,6 +76,10 @@ const Navbar= ({
       title: "About",
       url: "/about",
     },
+     {
+      title: "Dashboard",
+      url: "/dashboard",
+    },
   ],
   auth = {
     login: { title: "Login", url: "/login" },
@@ -100,6 +104,7 @@ const Navbar= ({
                 {logo.title}
               </span>
             </a>
+
             <div className="flex items-center">
               <NavigationMenu>
                 <NavigationMenuList>
@@ -107,6 +112,7 @@ const Navbar= ({
                 </NavigationMenuList>
               </NavigationMenu>
             </div>
+
           </div>
           <div className="flex gap-2">
             <Button asChild variant="outline" size="sm">
@@ -115,6 +121,7 @@ const Navbar= ({
             <Button asChild size="sm">
               <a href={auth.signup.url}>{auth.signup.title}</a>
             </Button>
+            <ModeToggle/>
           </div>
         </nav>
 
@@ -164,6 +171,7 @@ const Navbar= ({
                       <a href={auth.signup.url}>{auth.signup.title}</a>
                     </Button>
                   </div>
+                  <ModeToggle/>
                 </div>
               </SheetContent>
             </Sheet>
