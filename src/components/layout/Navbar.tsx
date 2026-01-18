@@ -27,6 +27,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import Link from "next/link";
+import { ModeToggle } from "./ModeToggle";
 
 interface MenuItem {
   title: string;
@@ -217,6 +218,8 @@ const SubMenuLink = ({ item }: { item: MenuItem }) => {
   return (
       <div>
         <div className="text-sm font-semibold">{item.title}</div>
+        <ModeToggle/>
+        
       </div>
   );
 };
