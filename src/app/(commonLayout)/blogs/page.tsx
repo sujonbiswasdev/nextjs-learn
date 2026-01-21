@@ -1,6 +1,7 @@
 "use client"
 import {Element } from 'react-scroll';
-const BlogPage = () => {
+const BlogPage = async() => {
+
   return (
     <div>
       this is blog page
