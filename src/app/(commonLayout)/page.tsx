@@ -1,6 +1,4 @@
-
-
-import { env } from '@/env';
+import BlogCard from '@/components/modules/homepage/BlogCard';
 import { blogService } from '@/services/blog.service';
 // import { cookies } from 'next/headers';
 
@@ -8,12 +6,12 @@ import { blogService } from '@/services/blog.service';
 
 // const AUTH_URL1=env.API_URL
 // console.log(AUTH_URL1)
-
+export const dynamic = 'force-dynamic' 
 const HomePage =async() => {
-  const data=blogService.getBlogPosts({
-    isFeatured:true
-  },{cache:"no-store"})
-  console.log(data,"data is featching right now is ok")
+  // const data=blogService.getBlogPosts({
+  //   isFeatured:true
+  // },{cache:"no-store"})
+  // console.log(data,"data is featching right now is ok")
 //   const cookiese = await cookies()
   
 //   const res= await fetch(`${AUTH_URL}/get-session`,{
@@ -24,10 +22,20 @@ const HomePage =async() => {
 //   })
 //  const seesion=await res.json()
 //  console.log(seesion,"data fetiching date")
+
+const {data} = await blogService.getBlogPosts({
+  isFeatured:false
+},{revalidate:200});
   
   return (
-    <div>
-      this is home HomePage
+    <div className='grid grid-cols-3 max-w-7xl mx-auto px-4 gap-6'>
+      {
+        data.data.map((post:any)=>{
+          return <div key={post.id} className='text-white'>
+            <BlogCard post={post}/>
+          </div>
+        })
+      }
     </div>
   )
 }

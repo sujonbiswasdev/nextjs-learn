@@ -1,8 +1,5 @@
 "use client"
 import { createEnv } from '@t3-oss/env-nextjs';
-
-
-
 import { z } from "zod";
 
 export const env = createEnv({
@@ -21,7 +18,7 @@ client:{
 },
 
    runtimeEnv: {
-    BACKEND_URL: process.env.BACKEND_URL,
+    BACKEND_URL: process.env.API_URL,
     FRONTEND_URL:process.env.FRONTEND_URL,
     API_URL:process.env.API_URL,
     AUTH_URL:process.env.AUTH_URL,

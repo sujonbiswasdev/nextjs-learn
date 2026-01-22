@@ -12,10 +12,14 @@ export async function proxy(request:NextRequest){
     let isAuthenticated=false
     let isAdmin=false
 
-    const {data}=await authClient.getSession();
-    if(data){
+    const {data}=await authClient.useSession();
+    if(data?.user.id){
         isAuthenticated=true
-        isAdmin=data.user.role==Roles.Admin
+        isAdmin=true
+        return NextResponse.redirect(new URL("/profile",request.url))
+    }
+    if(data){
+        return NextResponse.redirect(new URL("/profile",request.url))
     }
 
     if(!isAuthenticated){
