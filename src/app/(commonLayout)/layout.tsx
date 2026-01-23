@@ -1,11 +1,13 @@
-import { Navbar } from '@/components/layout/Navbar'
+// import { Navbar } from '@/components/layout/Navbar'
+import { Toaster } from '@/components/ui/sonner'
 import React from 'react'
 
 const CommonLayout = ({children}:{children:React.ReactNode}) => {
   return (
     <div>
-      <Navbar/>
+      {/* <Navbar/> */}
       {children}
+      <Toaster richColors/>
     </div>
   )
 }

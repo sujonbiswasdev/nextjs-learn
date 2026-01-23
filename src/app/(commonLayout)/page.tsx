@@ -25,7 +25,7 @@ const HomePage =async() => {
 
 const {data} = await blogService.getBlogPosts({
   isFeatured:false
-},{revalidate:200});
+},{revalidate:20});
   
   return (
     <div className='grid grid-cols-3 max-w-7xl mx-auto px-4 gap-6'>

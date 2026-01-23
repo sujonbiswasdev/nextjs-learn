@@ -1,4 +1,5 @@
-import { Button } from "@/components/ui/button"
+
+'use client'
 import {
   Card,
   CardContent,
@@ -6,15 +7,45 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
+import { useForm } from "@tanstack/react-form"
+import { Field, FieldError, FieldGroup, FieldLabel } from "./ui/field"
+
+import { Input } from "./ui/input"
+import * as z from 'zod'
+import { authClient } from "@/lib/auth-client"
+import { toast } from "sonner"
+const formSchema = z.object({
+  name:z.string().min(1,"this is require"),
+  password:z.string().min(8,'minimum length is required'),
+  email:z.email()
+})
+
+
 
 export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
+
+  const form = useForm({defaultValues:{
+    name:"",
+    email:"",
+    password:""
+  },validators:{
+    onSubmit:formSchema
+  }
+  ,onSubmit:async({value})=>{
+ try {
+    const toastid= toast.loading("creatting user")
+    const {data,error}=await authClient.signUp.email(value)
+    if(error){
+      toast.error(error.message,{id:toastid})
+      return
+    }
+    toast.success('user created sucessfully')
+  
+ } catch (error) {
+  toast.error("someting went wrong please try again")
+  
+ }
+  }})
   return (
     <Card {...props}>
       <CardHeader>
@@ -24,51 +55,88 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form>
-          <FieldGroup>
-            <Field>
-              <FieldLabel htmlFor="name">Full Name</FieldLabel>
-              <Input id="name" type="text" placeholder="John Doe" required />
-            </Field>
-            <Field>
-              <FieldLabel htmlFor="email">Email</FieldLabel>
-              <Input
-                id="email"
-                type="email"
-                placeholder="m@example.com"
-                required
-              />
-              <FieldDescription>
-                We&apos;ll use this to contact you. We will not share your email
-                with anyone else.
-              </FieldDescription>
-            </Field>
-            <Field>
-              <FieldLabel htmlFor="password">Password</FieldLabel>
-              <Input id="password" type="password" required />
-              <FieldDescription>
-                Must be at least 8 characters long.
-              </FieldDescription>
-            </Field>
-            <Field>
-              <FieldLabel htmlFor="confirm-password">
-                Confirm Password
-              </FieldLabel>
-              <Input id="confirm-password" type="password" required />
-              <FieldDescription>Please confirm your password.</FieldDescription>
-            </Field>
-            <FieldGroup>
-              <Field>
-                <Button type="submit">Create Account</Button>
-                <Button variant="outline" type="button">
-                  Sign up with Google
-                </Button>
-                <FieldDescription className="px-6 text-center">
-                  Already have an account? <a href="#">Sign in</a>
-                </FieldDescription>
-              </Field>
-            </FieldGroup>
-          </FieldGroup>
+        <form onSubmit={(e)=>{
+          e.preventDefault()
+          form.handleSubmit();
+        }}>
+        <FieldGroup className="space-x-1.5 space-y-1">
+          <form.Field name="name" children={(field)=>{
+              const isInvalid =
+                  field.state.meta.isTouched && !field.state.meta.isValid
+            return (
+              <>
+               <Field data-invalid={isInvalid}>
+                 <FieldLabel>Name</FieldLabel>
+                 <Input
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      type="text"
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      placeholder="Login button not working on mobile"
+                      autoComplete="off"
+                    />
+                    {isInvalid && (
+                      <FieldError errors={field.state.meta.errors} />
+                    )}
+               </Field>
+              </>
+            )
+          }}/>
+
+           <form.Field name="email" children={(field)=>{
+             const isInvalid =
+                  field.state.meta.isTouched && !field.state.meta.isValid
+            return (
+              <>
+               <Field>
+                 <FieldLabel>email</FieldLabel>
+                 <Input
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      type="text"
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      placeholder="Login button not working on mobile"
+                      autoComplete="off"
+                    />
+                    {isInvalid && (
+                      <FieldError errors={field.state.meta.errors} />
+                    )}
+               </Field>
+
+                <form.Field name="password" children={(field)=>{
+                    const isInvalid =
+                  field.state.meta.isTouched && !field.state.meta.isValid
+            return (
+              <>
+               <Field>
+                 <FieldLabel>password</FieldLabel>
+                 <Input
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      type="text"
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      placeholder="Login button not working on mobile"
+                      autoComplete="off"
+                    />
+                       {isInvalid && (
+                      <FieldError errors={field.state.meta.errors} />
+                    )}
+               </Field>
+              </>
+            )
+          }}/>
+              </>
+            )
+          }}/>
+        </FieldGroup>
+
+<button type="submit" className="bg-blue-800 rounded-lg px-4 py-2 mt-3">click here</button>
         </form>
       </CardContent>
     </Card>

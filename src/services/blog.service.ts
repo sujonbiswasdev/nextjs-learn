@@ -1,6 +1,6 @@
 import { env } from "@/env";
 
-const API_URL = process.env.API_URL;
+const API_URL ='http://localhost:5000';
 
 //* No Dynamic and No { cache: no-store } : SSG -> Static Page
 //* { cache: no-store } : SSR -> Dynamic Page
