@@ -10,7 +10,6 @@ const BlogPage = async() => {
     <div className='bg-red-500'>
         this is blog pagesdfsdfz
         <Link href={'/blogs/744ead75-9eab-4fb5-b8c8-59001f413844'}>click here</Link>
-      
     </div>
   )
 }
